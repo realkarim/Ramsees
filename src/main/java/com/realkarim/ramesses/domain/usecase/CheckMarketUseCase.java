@@ -16,6 +16,7 @@ public class CheckMarketUseCase implements MarketCheckPort {
     private final MarketDataPort marketData;
     private final TradeExecutionPort tradeExecution;
     private final TradingStrategy strategy;
+    private final double fee;
 
     private int iteration = 0;
 
@@ -44,7 +45,9 @@ public class CheckMarketUseCase implements MarketCheckPort {
         log.info("Total equity: {} USDT", String.format("%.4f", equity));
         log.info("Realized P&L: {} USDT", String.format("%.4f", updated.getRealizedPnl()));
         if (updated.getStep() == PortfolioStep.SELL_NEXT) {
-            double unrealizedPnl = updated.getEthHoldings() * (latestPrice - updated.getEntryPrice());
+            double costBasis = updated.getEthHoldings() * updated.getEntryPrice() / (1 - fee);
+            double saleProceeds = updated.getEthHoldings() * latestPrice * (1 - fee);
+            double unrealizedPnl = saleProceeds - costBasis;
             log.info("Unrealized P&L: {} USDT", String.format("%.4f", unrealizedPnl));
         }
     }

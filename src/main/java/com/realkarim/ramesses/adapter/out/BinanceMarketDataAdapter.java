@@ -95,7 +95,7 @@ public class BinanceMarketDataAdapter implements MarketDataPort {
         var result = new ArrayList<MarketBar>();
         for (var k : klines) {
             result.add(new MarketBar(
-                ZonedDateTime.ofInstant(Instant.ofEpochMilli(k.getCloseTime()), ZoneId.systemDefault()),
+                ZonedDateTime.ofInstant(Instant.ofEpochMilli(k.getCloseTime()), ZoneId.of("UTC")),
                 Double.parseDouble(k.getOpen()),
                 Double.parseDouble(k.getHigh()),
                 Double.parseDouble(k.getLow()),

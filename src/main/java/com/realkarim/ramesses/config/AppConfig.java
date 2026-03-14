@@ -28,7 +28,8 @@ public class AppConfig {
 
     @Bean
     public MarketCheckPort marketCheckPort(MarketDataPort marketData,
-        TradeExecutionPort tradeExecution, TradingStrategy strategy) {
-        return new CheckMarketUseCase(marketData, tradeExecution, strategy);
+        TradeExecutionPort tradeExecution, TradingStrategy strategy,
+        @Value("${application.trading.fee:0.001}") double fee) {
+        return new CheckMarketUseCase(marketData, tradeExecution, strategy, fee);
     }
 }

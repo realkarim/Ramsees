@@ -34,7 +34,7 @@ public class BinanceTradeExecutionAdapter implements TradeExecutionPort {
     public void sell(double price) {
         double proceeds = portfolio.getEthHoldings() * price;
         proceeds -= proceeds * fee;
-        double costBasis = portfolio.getEthHoldings() * portfolio.getEntryPrice() * (1 + fee);
+        double costBasis = portfolio.getEthHoldings() * portfolio.getEntryPrice() / (1 - fee);
         double tradePnl = proceeds - costBasis;
         double realizedPnl = portfolio.getRealizedPnl() + tradePnl;
         portfolio = new Portfolio(proceeds, 0.0, PortfolioStep.BUY_NEXT, 0.0, realizedPnl);
