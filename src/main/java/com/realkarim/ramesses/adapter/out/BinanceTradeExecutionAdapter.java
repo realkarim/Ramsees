@@ -25,17 +25,21 @@ public class BinanceTradeExecutionAdapter implements TradeExecutionPort {
     public void buy(double price) {
         double eth = portfolio.getBudget() / price;
         eth -= eth * fee;
-        portfolio = new Portfolio(0.0, eth, PortfolioStep.SELL_NEXT);
+        portfolio = new Portfolio(0.0, eth, PortfolioStep.SELL_NEXT, price, portfolio.getRealizedPnl());
         log.info("Buying at price: {}", price);
         log.info("Budget: {}, ETH: {}", portfolio.getBudget(), portfolio.getEthHoldings());
     }
 
     @Override
     public void sell(double price) {
-        double budget = portfolio.getEthHoldings() * price;
-        budget -= budget * fee;
-        portfolio = new Portfolio(budget, 0.0, PortfolioStep.BUY_NEXT);
+        double proceeds = portfolio.getEthHoldings() * price;
+        proceeds -= proceeds * fee;
+        double costBasis = portfolio.getEthHoldings() * portfolio.getEntryPrice() * (1 + fee);
+        double tradePnl = proceeds - costBasis;
+        double realizedPnl = portfolio.getRealizedPnl() + tradePnl;
+        portfolio = new Portfolio(proceeds, 0.0, PortfolioStep.BUY_NEXT, 0.0, realizedPnl);
         log.info("Selling at price: {}", price);
+        log.info("Trade P&L: {} USDT | Realized P&L: {} USDT", String.format("%.4f", tradePnl), String.format("%.4f", realizedPnl));
         log.info("Budget: {}, ETH: {}", portfolio.getBudget(), portfolio.getEthHoldings());
     }
 

@@ -38,7 +38,14 @@ public class CheckMarketUseCase implements MarketCheckPort {
         }
 
         var updated = tradeExecution.getPortfolio();
+        double equity = updated.getBudget() + updated.getEthHoldings() * latestPrice;
         log.info("Current budget: {}", updated.getBudget());
         log.info("Current ETH: {}", updated.getEthHoldings());
+        log.info("Total equity: {} USDT", String.format("%.4f", equity));
+        log.info("Realized P&L: {} USDT", String.format("%.4f", updated.getRealizedPnl()));
+        if (updated.getStep() == PortfolioStep.SELL_NEXT) {
+            double unrealizedPnl = updated.getEthHoldings() * (latestPrice - updated.getEntryPrice());
+            log.info("Unrealized P&L: {} USDT", String.format("%.4f", unrealizedPnl));
+        }
     }
 }
