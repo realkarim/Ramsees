@@ -13,7 +13,7 @@ The trading domain — "given market data, decide when to buy or sell" — is pu
 ## Package Structure
 
 ```
-com.tyche.ramesses/
+com.realkarim.ramesses/
 ├── domain/                        # Pure business logic — no Spring, no Binance
 │   ├── model/
 │   │   ├── MarketBar              # OHLCV candlestick bar
