@@ -1,18 +1,13 @@
 package com.realkarim.ramesses.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+@Data
 @Configuration
 @ConfigurationProperties(prefix = "application.average-slots-splits")
 public class SlotsConfigProps {
-
     private int fast;
     private int slow;
-
-    public int getFast() { return fast; }
-    public void setFast(int fast) { this.fast = fast; }
-
-    public int getSlow() { return slow; }
-    public void setSlow(int slow) { this.slow = slow; }
 }
