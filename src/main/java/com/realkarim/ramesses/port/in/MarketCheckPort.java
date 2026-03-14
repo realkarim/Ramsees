@@ -1,4 +1,4 @@
-package com.realkarim.ramesses.ramesses.port.in;
+package com.realkarim.ramesses.port.in;
 
 public interface MarketCheckPort {
     void checkMarket();

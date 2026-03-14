@@ -1,7 +1,7 @@
-package com.realkarim.ramesses.ramesses.domain.strategy;
+package com.realkarim.ramesses.domain.strategy;
 
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
-import com.realkarim.ramesses.ramesses.domain.model.TradeSignal;
+import com.realkarim.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.domain.model.TradeSignal;
 import java.util.List;
 
 public interface TradingStrategy {

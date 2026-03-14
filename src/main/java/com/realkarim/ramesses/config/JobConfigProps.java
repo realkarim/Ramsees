@@ -1,4 +1,4 @@
-package com.realkarim.ramesses.ramesses.config;
+package com.realkarim.ramesses.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

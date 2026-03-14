@@ -1,8 +1,8 @@
-package com.realkarim.ramesses.ramesses.adapter.out;
+package com.realkarim.ramesses.adapter.out;
 
-import com.realkarim.ramesses.ramesses.domain.model.Portfolio;
-import com.realkarim.ramesses.ramesses.domain.model.PortfolioStep;
-import com.realkarim.ramesses.ramesses.port.out.TradeExecutionPort;
+import com.realkarim.ramesses.domain.model.Portfolio;
+import com.realkarim.ramesses.domain.model.PortfolioStep;
+import com.realkarim.ramesses.port.out.TradeExecutionPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

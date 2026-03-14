@@ -1,7 +1,7 @@
-package com.realkarim.ramesses.ramesses.adapter.out;
+package com.realkarim.ramesses.adapter.out;
 
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
-import com.realkarim.ramesses.ramesses.port.out.MarketDataPort;
+import com.realkarim.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.port.out.MarketDataPort;
 import java.util.Collections;
 import java.util.List;
 

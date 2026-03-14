@@ -1,13 +1,13 @@
-package com.realkarim.ramesses.ramesses.adapter.out;
+package com.realkarim.ramesses.adapter.out;
 
 import com.binance.connector.client.impl.SpotClientImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.realkarim.ramesses.ramesses.api.dto.KlineResponseDTO;
-import com.realkarim.ramesses.ramesses.api.dto.ServerTimeResponseDTO;
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
-import com.realkarim.ramesses.ramesses.port.out.MarketDataPort;
+import com.realkarim.ramesses.api.dto.KlineResponseDTO;
+import com.realkarim.ramesses.api.dto.ServerTimeResponseDTO;
+import com.realkarim.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.port.out.MarketDataPort;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

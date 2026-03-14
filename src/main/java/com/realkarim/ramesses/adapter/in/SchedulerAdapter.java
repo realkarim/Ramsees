@@ -1,6 +1,6 @@
-package com.realkarim.ramesses.ramesses.adapter.in;
+package com.realkarim.ramesses.adapter.in;
 
-import com.realkarim.ramesses.ramesses.port.in.MarketCheckPort;
+import com.realkarim.ramesses.port.in.MarketCheckPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

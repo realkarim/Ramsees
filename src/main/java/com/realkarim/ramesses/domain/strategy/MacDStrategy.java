@@ -1,8 +1,8 @@
-package com.realkarim.ramesses.ramesses.domain.strategy;
+package com.realkarim.ramesses.domain.strategy;
 
-import com.realkarim.ramesses.ramesses.config.StrategyConfigProps;
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
-import com.realkarim.ramesses.ramesses.domain.model.TradeSignal;
+import com.realkarim.ramesses.config.StrategyConfigProps;
+import com.realkarim.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.domain.model.TradeSignal;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

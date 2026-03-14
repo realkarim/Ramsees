@@ -1,7 +1,7 @@
-package com.realkarim.ramesses.ramesses.util;
+package com.realkarim.ramesses.util;
 
-import com.realkarim.ramesses.ramesses.adapter.out.BinanceMarketDataAdapter;
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.adapter.out.BinanceMarketDataAdapter;
+import com.realkarim.ramesses.domain.model.MarketBar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;

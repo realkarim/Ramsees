@@ -1,11 +1,11 @@
-package com.realkarim.ramesses.ramesses.config;
+package com.realkarim.ramesses.config;
 
-import com.realkarim.ramesses.ramesses.domain.strategy.MacDStrategy;
-import com.realkarim.ramesses.ramesses.domain.strategy.TradingStrategy;
-import com.realkarim.ramesses.ramesses.domain.usecase.CheckMarketUseCase;
-import com.realkarim.ramesses.ramesses.port.in.MarketCheckPort;
-import com.realkarim.ramesses.ramesses.port.out.MarketDataPort;
-import com.realkarim.ramesses.ramesses.port.out.TradeExecutionPort;
+import com.realkarim.ramesses.domain.strategy.MacDStrategy;
+import com.realkarim.ramesses.domain.strategy.TradingStrategy;
+import com.realkarim.ramesses.domain.usecase.CheckMarketUseCase;
+import com.realkarim.ramesses.port.in.MarketCheckPort;
+import com.realkarim.ramesses.port.out.MarketDataPort;
+import com.realkarim.ramesses.port.out.TradeExecutionPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

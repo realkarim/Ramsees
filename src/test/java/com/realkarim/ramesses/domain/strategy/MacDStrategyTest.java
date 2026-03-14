@@ -1,9 +1,9 @@
-package com.realkarim.ramesses.ramesses.domain.strategy;
+package com.realkarim.ramesses.domain.strategy;
 
-import com.realkarim.ramesses.ramesses.adapter.out.InMemoryMarketDataAdapter;
-import com.realkarim.ramesses.ramesses.config.StrategyConfigProps;
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
-import com.realkarim.ramesses.ramesses.util.BinanceHistoricalFetcher;
+import com.realkarim.ramesses.adapter.out.InMemoryMarketDataAdapter;
+import com.realkarim.ramesses.config.StrategyConfigProps;
+import com.realkarim.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.util.BinanceHistoricalFetcher;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

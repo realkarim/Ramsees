@@ -1,6 +1,6 @@
-package com.realkarim.ramesses.ramesses.port.out;
+package com.realkarim.ramesses.port.out;
 
-import com.realkarim.ramesses.ramesses.domain.model.Portfolio;
+import com.realkarim.ramesses.domain.model.Portfolio;
 
 public interface TradeExecutionPort {
     void buy(double price);

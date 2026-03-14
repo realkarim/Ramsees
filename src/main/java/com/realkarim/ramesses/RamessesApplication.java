@@ -1,4 +1,4 @@
-package com.realkarim.ramesses.ramesses;
+package com.realkarim.ramesses;
 
 
 import org.springframework.boot.SpringApplication;

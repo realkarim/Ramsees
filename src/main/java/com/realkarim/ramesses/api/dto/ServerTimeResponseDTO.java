@@ -1,4 +1,4 @@
-package com.realkarim.ramesses.ramesses.api.dto;
+package com.realkarim.ramesses.api.dto;
 
 public class ServerTimeResponseDTO {
 

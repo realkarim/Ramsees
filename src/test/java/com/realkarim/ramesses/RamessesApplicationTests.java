@@ -1,7 +1,7 @@
-package com.realkarim.ramesses.ramesses;
+package com.realkarim.ramesses;
 
-import com.realkarim.ramesses.ramesses.domain.model.MarketBar;
-import com.realkarim.ramesses.ramesses.util.BinanceHistoricalFetcher;
+import com.realkarim.ramesses.domain.model.MarketBar;
+import com.realkarim.ramesses.util.BinanceHistoricalFetcher;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
