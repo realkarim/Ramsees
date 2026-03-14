@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "application.strategy")
 public class StrategyConfigProps {
+    private String name;
     private int trendEmaLength;
     private int macdShort;
     private int macdLong;

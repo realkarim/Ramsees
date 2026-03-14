@@ -5,6 +5,7 @@ application:
     scheduler:
         frequency: 10000
     strategy:
+        name: macd
         trend-ema-length: 100
         macd-short: 12
         macd-long: 26

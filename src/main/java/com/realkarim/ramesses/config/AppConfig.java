@@ -20,7 +20,10 @@ public class AppConfig {
     @Bean
     public TradingStrategy tradingStrategy(
         @Value("${application.trading.max-bars:500}") int maxBars) {
-        return new MacDStrategy(strategyConfig, maxBars);
+        if ("macd".equals(strategyConfig.getName())) {
+            return new MacDStrategy(strategyConfig, maxBars);
+        }
+        throw new IllegalArgumentException("Unknown strategy: " + strategyConfig.getName());
     }
 
     @Bean
