@@ -1,10 +1,9 @@
 package com.tyche.ramsees.api.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class ServerTimeResponseDTO {
-  String serverTime;
+
+    private String serverTime;
+
+    public String getServerTime() { return serverTime; }
+    public void setServerTime(String serverTime) { this.serverTime = serverTime; }
 }

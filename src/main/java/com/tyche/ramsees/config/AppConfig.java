@@ -7,6 +7,7 @@ import com.tyche.ramsees.port.in.MarketCheckPort;
 import com.tyche.ramsees.port.out.MarketDataPort;
 import com.tyche.ramsees.port.out.TradeExecutionPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,8 +18,9 @@ public class AppConfig {
     private final StrategyConfigProps strategyConfig;
 
     @Bean
-    public TradingStrategy tradingStrategy() {
-        return new MacDStrategy(strategyConfig);
+    public TradingStrategy tradingStrategy(
+        @Value("${application.trading.max-bars:500}") int maxBars) {
+        return new MacDStrategy(strategyConfig, maxBars);
     }
 
     @Bean

@@ -22,30 +22,29 @@ public class MacDStrategy implements TradingStrategy {
     private static final Logger log = LoggerFactory.getLogger(MacDStrategy.class);
 
     private final StrategyConfigProps config;
+    private final int maxBarCount;
 
-    public MacDStrategy(StrategyConfigProps config) {
+    private BarSeries series;
+    private ClosePriceIndicator closePrice;
+    private MACDIndicator macd;
+    private EMAIndicator macdSignal;
+    private EMAIndicator trendEma;
+    private BaseStrategy strategy;
+
+    public MacDStrategy(StrategyConfigProps config, int maxBarCount) {
         this.config = config;
+        this.maxBarCount = maxBarCount;
     }
 
     @Override
     public TradeSignal evaluate(List<MarketBar> bars) {
-        var series = toBarSeries(bars);
+        if (series == null) {
+            initSeries(bars);
+        } else {
+            appendNewBars(bars);
+        }
+
         var endIndex = series.getEndIndex();
-
-        var closePrice = new ClosePriceIndicator(series);
-        var macd = new MACDIndicator(closePrice, config.getMacdShort(), config.getMacdLong());
-        var macdSignal = new EMAIndicator(macd, config.getMacdSignalLength());
-        var trendEma = new EMAIndicator(closePrice, config.getTrendEmaLength());
-
-        var buyRule = new CrossedUpIndicatorRule(macd, macdSignal)
-            .and((i, tr) -> macd.getValue(i).doubleValue() < 0)
-            .and(new UnderIndicatorRule(closePrice, trendEma));
-
-        var sellRule = new StopGainRule(closePrice, config.getStopGain())
-            .or(new StopLossRule(closePrice, config.getStopLoss()));
-
-        var strategy = new BaseStrategy(buyRule, sellRule);
-
         log.info("Current price: {}", series.getLastBar().getClosePrice());
         log.info("trendEma: {}", trendEma.getValue(endIndex));
         log.info("macd: {}", macd.getValue(endIndex));
@@ -56,12 +55,40 @@ public class MacDStrategy implements TradingStrategy {
         return TradeSignal.HOLD;
     }
 
-    private BarSeries toBarSeries(List<MarketBar> bars) {
-        var series = new BaseBarSeriesBuilder().withName("SERIES").build();
+    private void initSeries(List<MarketBar> bars) {
+        series = new BaseBarSeriesBuilder()
+            .withName("SERIES")
+            .withMaxBarCount(maxBarCount)
+            .build();
+
         for (var bar : bars) {
             series.addBar(bar.getTimestamp(), bar.getOpen(), bar.getHigh(),
                 bar.getLow(), bar.getClose(), bar.getVolume());
         }
-        return series;
+
+        closePrice = new ClosePriceIndicator(series);
+        macd = new MACDIndicator(closePrice, config.getMacdShort(), config.getMacdLong());
+        macdSignal = new EMAIndicator(macd, config.getMacdSignalLength());
+        trendEma = new EMAIndicator(closePrice, config.getTrendEmaLength());
+
+        var buyRule = new CrossedUpIndicatorRule(macd, macdSignal)
+            .and((i, tr) -> macd.getValue(i).doubleValue() < 0)
+            .and(new UnderIndicatorRule(closePrice, trendEma));
+        var sellRule = new StopGainRule(closePrice, config.getStopGain())
+            .or(new StopLossRule(closePrice, config.getStopLoss()));
+
+        strategy = new BaseStrategy(buyRule, sellRule);
+    }
+
+    // Appends only bars with a timestamp later than the last bar already in the series
+    private void appendNewBars(List<MarketBar> bars) {
+        var lastTime = series.getLastBar().getEndTime();
+        for (var bar : bars) {
+            if (bar.getTimestamp().isAfter(lastTime)) {
+                series.addBar(bar.getTimestamp(), bar.getOpen(), bar.getHigh(),
+                    bar.getLow(), bar.getClose(), bar.getVolume());
+                lastTime = bar.getTimestamp();
+            }
+        }
     }
 }

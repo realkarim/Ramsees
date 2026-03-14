@@ -1,8 +1,8 @@
 package com.tyche.ramsees.adapter.out;
 
+import com.binance.connector.client.impl.SpotClientImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.binance.connector.client.impl.SpotClientImpl;
 import com.google.gson.Gson;
 import com.tyche.ramsees.api.dto.KlineResponseDTO;
 import com.tyche.ramsees.api.dto.ServerTimeResponseDTO;
@@ -24,17 +24,23 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BinanceMarketDataAdapter implements MarketDataPort {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private final String symbol;
     private final String interval;
+    private final int maxBars;
+    private final SpotClientImpl client = new SpotClientImpl();
 
     private final List<MarketBar> bars = new ArrayList<>();
     private boolean initialized = false;
 
     public BinanceMarketDataAdapter(
         @Value("${application.trading.symbol:ETHUSDT}") String symbol,
-        @Value("${application.trading.interval:5m}") String interval) {
+        @Value("${application.trading.interval:5m}") String interval,
+        @Value("${application.trading.max-bars:500}") int maxBars) {
         this.symbol = symbol;
         this.interval = interval;
+        this.maxBars = maxBars;
     }
 
     @Override
@@ -52,13 +58,15 @@ public class BinanceMarketDataAdapter implements MarketDataPort {
         for (var bar : incoming) {
             if (bars.isEmpty() || !bar.getTimestamp().equals(bars.get(bars.size() - 1).getTimestamp())) {
                 bars.add(bar);
+                if (bars.size() > maxBars) {
+                    bars.remove(0);
+                }
             }
         }
     }
 
     public String getServerTime() {
-        var result = new SpotClientImpl().createMarket().time();
-        return new Gson().fromJson(result, ServerTimeResponseDTO.class).getServerTime();
+        return new Gson().fromJson(client.createMarket().time(), ServerTimeResponseDTO.class).getServerTime();
     }
 
     protected List<KlineResponseDTO> fetchKlines(String symbol, String interval,
@@ -70,13 +78,12 @@ public class BinanceMarketDataAdapter implements MarketDataPort {
         if (startTime != null) parameters.put("startTime", startTime);
         if (endTime != null) parameters.put("endTime", endTime);
 
-        var result = new SpotClientImpl().createMarket().klines(parameters);
-        var jsonArray = new JSONArray(result);
+        var jsonArray = new JSONArray(client.createMarket().klines(parameters));
         var klineList = new ArrayList<KlineResponseDTO>();
 
         for (Object o : jsonArray) {
             try {
-                klineList.add(new ObjectMapper().readValue(o.toString(), KlineResponseDTO.class));
+                klineList.add(OBJECT_MAPPER.readValue(o.toString(), KlineResponseDTO.class));
             } catch (JsonProcessingException e) {
                 log.error("Exception while fetching klines", e);
             }
@@ -84,7 +91,7 @@ public class BinanceMarketDataAdapter implements MarketDataPort {
         return klineList;
     }
 
-    private List<MarketBar> toMarketBars(List<KlineResponseDTO> klines) {
+    protected List<MarketBar> toMarketBars(List<KlineResponseDTO> klines) {
         var result = new ArrayList<MarketBar>();
         for (var k : klines) {
             result.add(new MarketBar(

@@ -16,7 +16,7 @@ public class BinanceHistoricalFetcher extends BinanceMarketDataAdapter {
     private static final int HALF_DAYS = 28 * 2;
 
     public BinanceHistoricalFetcher() {
-        super("ETHUSDT", "5m");
+        super("ETHUSDT", "5m", Integer.MAX_VALUE);
     }
 
     public List<MarketBar> fetchHistoricalBars() {
@@ -39,22 +39,5 @@ public class BinanceHistoricalFetcher extends BinanceMarketDataAdapter {
         var result = new ArrayList<MarketBar>();
         while (!stack.isEmpty()) result.add(stack.pop());
         return result;
-    }
-
-    private List<MarketBar> toMarketBars(List<com.tyche.ramsees.api.dto.KlineResponseDTO> klines) {
-        var bars = new ArrayList<MarketBar>();
-        for (var k : klines) {
-            bars.add(new MarketBar(
-                java.time.ZonedDateTime.ofInstant(
-                    java.time.Instant.ofEpochMilli(k.getCloseTime()),
-                    java.time.ZoneId.systemDefault()),
-                Double.parseDouble(k.getOpen()),
-                Double.parseDouble(k.getHigh()),
-                Double.parseDouble(k.getLow()),
-                Double.parseDouble(k.getClose()),
-                Double.parseDouble(k.getVolume())
-            ));
-        }
-        return bars;
     }
 }

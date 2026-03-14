@@ -16,3 +16,4 @@ application:
         interval: 5m
         initial-budget: 1000.0
         fee: 0.001
+        max-bars: 500
